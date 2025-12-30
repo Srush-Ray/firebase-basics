@@ -1,3 +1,8 @@
+.item-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -72,4 +77,22 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.item {
+  background-color: lightblue;
+  border: 1px solid darkblue;
+  padding: 10px;
+  margin-bottom: 10px;
+  color: black;
+  border-radius: 10px;
+}
+
+.delete-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ff0000;
+  font-size: 1.2em;
+  padding: 0;
 }
