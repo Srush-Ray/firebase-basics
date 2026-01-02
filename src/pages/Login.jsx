@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '../firebase';
 import { 
   GoogleAuthProvider, 
-  signInWithRedirect, 
+  signInWithPopup, 
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  getRedirectResult
+  signInWithEmailAndPassword
 } from 'firebase/auth';
 import { login } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
@@ -18,28 +17,19 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result) {
-          const user = result.user;
-          dispatch(login({
-            email: user.email,
-            uid: user.uid,
-            displayName: user.displayName,
-          }));
-          navigate('/home');
-        }
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  }, [dispatch, navigate]);
-
   const handleGoogleSignIn = () => {
     setError(null);
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        dispatch(login({
+          email: user.email,
+          uid: user.uid,
+          displayName: user.displayName,
+        }));
+        navigate('/home');
+      })
       .catch((error) => {
         setError(error.message);
       });
