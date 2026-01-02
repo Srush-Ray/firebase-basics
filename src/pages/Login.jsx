@@ -20,19 +20,19 @@ function Login() {
   const handleGoogleSignIn = () => {
     setError(null);
     const provider = new GoogleAuthProvider();
-    // signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //     const user = result.user;
-    //     dispatch(login({
-    //       email: user.email,
-    //       uid: user.uid,
-    //       displayName: user.displayName,
-    //     }));
-    //     navigate('/home');
-    //   })
-    //   .catch((error) => {
-    //     setError(error.message);
-    //   });
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        dispatch(login({
+          email: user.email,
+          uid: user.uid,
+          displayName: user.displayName,
+        }));
+        navigate('/home');
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   const handleEmailSignUp = (e) => {
@@ -42,18 +42,18 @@ function Login() {
       setError('Email and password cannot be empty.');
       return;
     }
-    // createUserWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     dispatch(login({
-    //       email: userCredential.user.email,
-    //       uid: userCredential.user.uid,
-    //       displayName: userCredential.user.displayName,
-    //     }));
-    //     navigate('/home');
-    //   })
-    //   .catch((error) => {
-    //     setError(error.message);
-    //   });
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        dispatch(login({
+          email: userCredential.user.email,
+          uid: userCredential.user.uid,
+          displayName: userCredential.user.displayName,
+        }));
+        navigate('/home');
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   const handleEmailSignIn = (e) => {
@@ -63,18 +63,18 @@ function Login() {
       setError('Email and password cannot be empty.');
       return;
     }
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     dispatch(login({
-    //       email: userCredential.user.email,
-    //       uid: userCredential.user.uid,
-    //       displayName: userCredential.user.displayName,
-    //     }));
-    //     navigate('/home');
-    //   })
-    //   .catch((error) => {
-    //     setError(error.message);
-    //   });
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        dispatch(login({
+          email: userCredential.user.email,
+          uid: userCredential.user.uid,
+          displayName: userCredential.user.displayName,
+        }));
+        navigate('/home');
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (

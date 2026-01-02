@@ -15,35 +15,36 @@ function User() {
   useEffect(() => {
     if (user) {
       const userRef = ref(realtimeDB, 'users/' + user.uid);
-      // get(userRef)
-      //   .then((snapshot) => {
-      //     if (snapshot.exists()) {
-      //       const data = snapshot.val();
-      //       setSavedName(data.name);
-      //     }
-      //     setLoading(false);
-      //   })
-      //   .catch((error) => {
-      //     setError(error.message);
-      //     setLoading(false);
-      //   });
+      get(userRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            setSavedName(data.name);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError(error.message);
+          setLoading(false);
+        });
     }
   }, [user]);
 
+//name:"Srushti"
   const handleSave = () => {
     if (user) {
       setError(null);
       setMessage('');
-      // const userRef = ref(realtimeDB, 'users/' + user.uid);
-      // set(userRef, { name })
-      //   .then(() => {
-      //     setMessage('Name saved.');
-      //     setSavedName(name);
-      //     setName(''); // Reset input box
-      //   })
-      //   .catch((error) => {
-      //     setError(error.message);
-      //   });
+      const userRef = ref(realtimeDB, 'users/' + user.uid);
+      set(userRef, { name })
+        .then(() => {
+          setMessage('Name saved.');
+          setSavedName(name);
+          setName(''); // Reset input box
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
     }
   };
 
