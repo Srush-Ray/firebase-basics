@@ -35,13 +35,15 @@ function Home() {
   }, [user]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'tickedoff'), (snapshot) => {
-      const itemsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setItems(itemsData);
-    });
+    if (user) {
+      const unsubscribe = onSnapshot(collection(db, 'tickedoff', user.uid, 'items'), (snapshot) => {
+        const itemsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setItems(itemsData);
+      });
 
-    return () => unsubscribe();
-  }, []);
+      return () => unsubscribe();
+    }
+  }, [user]);
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -58,7 +60,7 @@ function Home() {
     }
     try {
       const newId = uuidv4();
-      await setDoc(doc(db, 'tickedoff', newId), { name, genre });
+      await setDoc(doc(db, 'tickedoff', user.uid, 'items', newId), { name, genre });
       setName('');
       setGenre('');
     } catch (error) {
@@ -68,7 +70,7 @@ function Home() {
 
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "tickedoff", id));
+      await deleteDoc(doc(db, "tickedoff", user.uid, 'items', id));
     } catch (error) {
       console.error("Error removing document: ", error);
     }
