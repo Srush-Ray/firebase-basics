@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Home from './pages/Home';
 import ForgotPassword from './pages/ForgotPassword';
+import User from './pages/User';
 
 function App() {
   const user = useSelector(selectUser);
@@ -37,6 +38,7 @@ function App() {
           <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
           <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/user" element={user ? <User /> : <Navigate to="/" />} />
         </Routes>
       </div>
     </Router>

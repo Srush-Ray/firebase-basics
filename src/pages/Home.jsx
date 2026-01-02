@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, selectUser } from '../redux/userSlice';
-import { auth, db } from '../firebase';
+import { auth, db, realtimeDB } from '../firebase';
 import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { collection, setDoc, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { FaTrash } from 'react-icons/fa';
+import { ref, get } from 'firebase/database';
 
 function Home() {
   const user = useSelector(selectUser);
@@ -15,6 +16,23 @@ function Home() {
   const [name, setName] = useState('');
   const [genre, setGenre] = useState('');
   const [items, setItems] = useState([]);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      const userRef = ref(realtimeDB, 'users/' + user.uid);
+      get(userRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            setUserName(data.name);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'tickedoff'), (snapshot) => {
@@ -58,7 +76,9 @@ function Home() {
 
   return (
     <div className="container">
-      <h1>Welcome, {user ? (user.displayName || user.email) : 'Guest'}</h1>
+      <h1>Welcome, {userName || (user ? user.displayName : 'Guest')}</h1>
+      {user && <p>{user.email}</p>}
+      <Link to="/user" className="btn btn-link">Manage Profile</Link>
       <button className="btn btn-primary" onClick={handleSignOut}>Sign Out</button>
 
       <div className="add-form">

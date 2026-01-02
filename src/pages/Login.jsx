@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '../firebase';
 import { 
   GoogleAuthProvider, 
   signInWithRedirect, 
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  getRedirectResult
 } from 'firebase/auth';
 import { login } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +17,24 @@ function Login() {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          const user = result.user;
+          dispatch(login({
+            email: user.email,
+            uid: user.uid,
+            displayName: user.displayName,
+          }));
+          navigate('/home');
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  }, [dispatch, navigate]);
 
   const handleGoogleSignIn = () => {
     setError(null);
