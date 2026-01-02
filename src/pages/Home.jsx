@@ -20,29 +20,29 @@ function Home() {
 
   useEffect(() => {
     if (user) {
-      const userRef = ref(realtimeDB, 'users/' + user.uid);
-      get(userRef)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            setUserName(data.name);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-        });
+      // const userRef = ref(realtimeDB, 'users/' + user.uid);
+      // get(userRef)
+      //   .then((snapshot) => {
+      //     if (snapshot.exists()) {
+      //       const data = snapshot.val();
+      //       setUserName(data.name);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching user data:", error);
+      //   });
     }
   }, [user]);
 
   useEffect(() => {
-    if (user) {
-      const unsubscribe = onSnapshot(collection(db, 'tickedoff', user.uid, 'items'), (snapshot) => {
-        const itemsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setItems(itemsData);
-      });
+    // if (user) {
+    //   const unsubscribe = onSnapshot(collection(db, 'tickedoff', user.uid, 'items'), (snapshot) => {
+    //     const itemsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    //     setItems(itemsData);
+    //   });
 
-      return () => unsubscribe();
-    }
+    //   return () => unsubscribe();
+    // }
   }, [user]);
 
   const handleSignOut = () => {
@@ -60,7 +60,7 @@ function Home() {
     }
     try {
       const newId = uuidv4();
-      await setDoc(doc(db, 'tickedoff', user.uid, 'items', newId), { name, genre });
+      // add doc to list
       setName('');
       setGenre('');
     } catch (error) {
@@ -70,7 +70,7 @@ function Home() {
 
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "tickedoff", user.uid, 'items', id));
+      // delete doc code
     } catch (error) {
       console.error("Error removing document: ", error);
     }
