@@ -5,13 +5,7 @@ import { getDatabase } from "firebase/database";
 
 // TODO: Replace with your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC3GTn3_oowpt2GRnkwtN6g0DiRdgs1gEo",
-  authDomain: "ticked-off-ui.firebaseapp.com",
-  projectId: "ticked-off-ui",
-  storageBucket: "ticked-off-ui.appspot.com",
-  messagingSenderId: "746599190136",
-  appId: "1:746599190136:web:9a71c0f533d010f33fa78d",
-  databaseURL: "https://ticked-off-ui-default-rtdb.firebaseio.com"
+
   };
 
 // Initialize Firebase
