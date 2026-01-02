@@ -4,7 +4,8 @@ import { logout, selectUser } from '../redux/userSlice';
 import { auth, db } from '../firebase';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+import { collection, setDoc, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 import { FaTrash } from 'react-icons/fa';
 
 function Home() {
@@ -33,8 +34,13 @@ function Home() {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+    if (name.trim() === '' || genre.trim() === '') {
+      alert('Name and genre cannot be empty');
+      return;
+    }
     try {
-      await addDoc(collection(db, 'tickedoff'), { name, genre });
+      const newId = uuidv4();
+      await setDoc(doc(db, 'tickedoff', newId), { name, genre });
       setName('');
       setGenre('');
     } catch (error) {

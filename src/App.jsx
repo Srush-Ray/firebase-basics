@@ -6,6 +6,7 @@ import { login, logout, selectUser } from './redux/userSlice';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   const user = useSelector(selectUser);
@@ -35,6 +36,7 @@ function App() {
         <Routes>
           <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
           <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </div>
     </Router>

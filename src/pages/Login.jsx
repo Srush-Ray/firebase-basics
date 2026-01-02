@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '../firebase';
 import { 
@@ -29,6 +29,10 @@ function Login() {
   const handleEmailSignUp = (e) => {
     e.preventDefault();
     setError(null);
+    if (!email || !password) {
+      setError('Email and password cannot be empty.');
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         dispatch(login({
@@ -46,6 +50,10 @@ function Login() {
   const handleEmailSignIn = (e) => {
     e.preventDefault();
     setError(null);
+    if (!email || !password) {
+      setError('Email and password cannot be empty.');
+      return;
+    }
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         dispatch(login({
@@ -88,6 +96,9 @@ function Login() {
       </form>
       <hr />
       <button className="btn btn-danger" onClick={handleGoogleSignIn}>Log in with Google</button>
+      <div className="mt-3">
+        <button className="btn btn-link" onClick={() => navigate('/forgot-password')}>Forgot Password?</button>
+      </div>
     </div>
   );
 }
